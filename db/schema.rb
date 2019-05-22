@@ -10,18 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_22_002148) do
+ActiveRecord::Schema.define(version: 2019_05_22_015507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "addresses", force: :cascade do |t|
+    t.string "State"
+    t.string "string"
+    t.string "City"
+    t.string "Zip"
+    t.bigint "contact_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_addresses_on_contact_id"
+  end
+
   create_table "contacts", force: :cascade do |t|
-    t.string "name"
+    t.string "first_name"
     t.integer "age"
     t.string "phone"
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "last_name"
+    t.boolean "friend"
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.text "body"
+    t.bigint "contact_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_notes_on_contact_id"
+  end
+
+  add_foreign_key "addresses", "contacts"
+  add_foreign_key "notes", "contacts"
 end
